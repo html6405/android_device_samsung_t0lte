@@ -94,6 +94,7 @@
 /dev/ttyUSB1              0660   system     radio
 /dev/ttyUSB2              0660   system     system
 /dev/hsic*                0666   system     radio
+/dev/cdc-wdm*             0660   system     radio
 /dev/usb/lp*              0660   system     usb
 /dev/ttyGS0               0660   system     system
 
