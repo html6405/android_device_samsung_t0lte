@@ -48,6 +48,7 @@ struct input_event;
 
 class AccelSensor : public SensorBase {
     int mEnabled;
+    uint32_t mFlushed;
     InputEventCircularReader mInputReader;
     sensors_event_t mPendingEvent;
     bool mHasPendingEvent;
@@ -63,6 +64,8 @@ public:
     virtual bool hasPendingEvents() const;
     virtual int setDelay(int32_t handle, int64_t ns);
     virtual int enable(int32_t handle, int enabled);
+    virtual int batch(int handle, int flags, int64_t period_ns, int64_t timeout);
+    virtual int flush(int handle);
 };
 
 /*****************************************************************************/
