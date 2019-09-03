@@ -57,11 +57,6 @@ PRODUCT_PACKAGES += \
     Nfc \
     Tag
 
-# RIL
-PRODUCT_PACKAGES += \
-    libsecril-client \
-    libsecril-client-sap
-
 PRODUCT_COPY_FILES += \
     frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
@@ -80,10 +75,6 @@ PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     Stk \
     SamsungServiceMode
-
-# RIL
-PRODUCT_PROPERTY_OVERRIDES += \
-    mobiledata.interfaces=pdp0,gprs,ppp0,rmnet0,rmnet1
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
