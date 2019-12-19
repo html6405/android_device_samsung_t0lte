@@ -9,6 +9,7 @@ lib/libakm.so
 lib/libcsd-client.so
 lib/libloc_api_v02.so
 lib/libsec-ril.so
+lib/libstlport.so
 lib/libxml.so
 vendor/lib/libconfigdb.so
 vendor/lib/libdiag.so
