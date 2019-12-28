@@ -15,6 +15,7 @@
  */
 
 #include <fcntl.h>
+#include <pthread.h>
 #include <errno.h>
 #include <math.h>
 #include <poll.h>
@@ -62,11 +63,20 @@ ProximitySensor::~ProximitySensor() {
 
 int ProximitySensor::setInitialState() {
     struct input_absinfo absinfo;
-    if (!ioctl(data_fd, EVIOCGABS(EVENT_TYPE_PROXIMITY), &absinfo)) {
-        // make sure to report an event immediately
-        mHasPendingEvent = true;
-        mPendingEvent.distance = indexToValue(absinfo.value);
+
+    if (mEnabled) {
+    int ret = ioctl(data_fd, EVIOCGABS(EVENT_TYPE_PROXIMITY), &absinfo);
+
+    if (ret) {
+        ALOGE("%s: ioctl() failed with %d", __func__, ret);
+        return 0;
     }
+
+    // make sure to report an event immediately
+    mHasPendingEvent = true;
+    mPendingEvent.distance = indexToValue(absinfo.value);
+    }
+
     return 0;
 }
 
@@ -87,23 +97,52 @@ int ProximitySensor::setDelay(int32_t handle, int64_t ns)
     return -1;
 }
 
-int ProximitySensor::enable(int32_t handle, int en) {
+static void* set_initial_state_fn(void *data) {
+    ProximitySensor *sensor = (ProximitySensor*)data;
 
-    int flags = en ? 1 : 0;
+    ALOGE("%s: start", __func__);
+    usleep(100000); // 100ms
+    sensor->setDelay(0, 100000);
+    ALOGE("%s: end", __func__);
+
+    return NULL;
+}
+
+static void set_initial_state_fn(ProximitySensor *sensor) {
+       pthread_attr_t thread_attr;
+       pthread_t setdelay_thread;
+
+       pthread_attr_init(&thread_attr);
+       pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_DETACHED);
+       int rc = pthread_create(&setdelay_thread, &thread_attr, set_initial_state_fn, (void*)sensor);
+       if (rc < 0) {
+           ALOGE("%s: Unable to create thread", __func__);
+       }
+}
+
+int ProximitySensor::enable(int32_t handle, int enabled) {
+
+    int flags = enabled ? 1 : 0;
     int err;
-    ALOGE("%s: Enable: %i, mEnabled: %d, mHasPendingEvent: %d", __func__, en, mEnabled, mHasPendingEvent);
-    if (flags != mEnabled) {
-         err = sspEnable(LOG_TAG, SSP_PROX, en);
-         if(err >= 0){
-             mEnabled = flags;
-             setInitialState();
 
-             return 0;
-         }
-         // should normally not get here
-         ALOGE("%s: sspEnable returned %d", __func__, err);
-         return -1;
+    ALOGE("%s: Enable: %i, mEnabled: %d, mHasPendingEvent: %d", __func__, enabled, mEnabled, mHasPendingEvent);
+    err = sspEnable(LOG_TAG, SSP_PROX, enabled);
+    if (err < 0) {
+        ALOGE("%s: sspEnable returned %d", __func__, err);
+        return -1;
     }
+
+    setInitialState();
+    set_initial_state_fn(this);
+
+    if (enabled) {
+        mEnabled++;
+        if (mEnabled > 32767) mEnabled = 32767;
+    } else {
+        mEnabled--;
+        if (mEnabled < 0) mEnabled = 0;
+    }
+
     return 0;
 }
 
@@ -113,8 +152,10 @@ bool ProximitySensor::hasPendingEvents() const {
 
 int ProximitySensor::readEvents(sensors_event_t* data, int count)
 {
-    if (count < 1)
+    if (count < 1) {
+        ALOGE("%s: count < 1", __func__);
         return -EINVAL;
+    }
 
     if (mHasPendingEvent) {
         mHasPendingEvent = false;

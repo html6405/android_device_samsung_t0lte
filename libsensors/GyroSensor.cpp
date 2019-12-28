@@ -15,6 +15,7 @@
  */
 
 #include <fcntl.h>
+#include <pthread.h>
 #include <errno.h>
 #include <math.h>
 #include <poll.h>
@@ -78,6 +79,29 @@ int GyroSensor::setInitialState() {
     return 0;
 }
 
+static void* set_initial_state_fn(void *data) {
+    GyroSensor *sensor = (GyroSensor*)data;
+
+    ALOGE("%s: start", __func__);
+    usleep(100000); // 100ms
+    sensor->setDelay(0, 100000);
+    ALOGE("%s: end", __func__);
+
+    return NULL;
+}
+
+static void set_initial_state_thread(GyroSensor *sensor) {
+       pthread_attr_t thread_attr;
+       pthread_t setdelay_thread;
+
+       pthread_attr_init(&thread_attr);
+       pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_DETACHED);
+       int rc = pthread_create(&setdelay_thread, &thread_attr, set_initial_state_fn, (void*)sensor);
+       if (rc < 0) {
+           ALOGE("%s: Unable to create thread", __func__);
+       }
+}
+
 int GyroSensor::enable(int32_t handle, int en) {
     int flags = en ? 1 : 0;
     int err;
@@ -86,6 +110,7 @@ int GyroSensor::enable(int32_t handle, int en) {
          if(err >= 0){
              mEnabled = flags;
              setInitialState();
+             set_initial_state_thread(this);
 
              return 0;
          }
