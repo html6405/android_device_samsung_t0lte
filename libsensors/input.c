@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2013 Paul Kocialkowski <contact@paulk.fr>
+ * Copyright (C) 2016 Jonathan Jason Dennis [Meticulus]
+ *									theonejohnnyd@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -340,3 +342,30 @@ complete:
 
 	return rc;
 }
+
+int write_cmd(char const *path, char *cmd, int size)
+{
+	int fd, ret;
+	char * mesg;
+
+	ALOGE("%s: init", __func__);
+
+	fd = open(path, O_WRONLY);
+	if (fd < 0) {
+		mesg= strerror(errno);
+		ALOGE("%s: Cannot open %s, fd = %d, msg = %s\n", __func__, path, fd, mesg);
+		return -ENODEV;
+	}
+
+	ret = write(fd, cmd, size);
+	if (ret != size) {
+		mesg= strerror(errno);
+		ALOGE("%s: path = %s", __func__, path);
+		ALOGE("%s: Error. Wrote: %d, should have written: %d, msg = %s\n", __func__, ret, size, mesg);
+	}
+	ALOGE("%s: path = %s, ret = %d", __func__, path, ret);
+
+	close(fd);
+	return ret;
+}
+

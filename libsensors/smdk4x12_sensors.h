@@ -87,6 +87,7 @@ int64_t sysfs_value_read(char *path);
 int sysfs_value_write(char *path, int64_t value);
 int sysfs_string_read(char *path, char *buffer, size_t length);
 int sysfs_string_write(char *path, char *buffer, size_t length);
+int write_cmd(char const *path, char *cmd, int size);
 
 /*
  * Sensors

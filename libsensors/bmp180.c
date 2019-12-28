@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include <errno.h>
 #include <math.h>
 #include <string.h>
@@ -104,6 +105,33 @@ int bmp180_deinit(struct smdk4x12_sensors_handlers *handlers)
 	return 0;
 }
 
+int bmp180_set_delay(struct smdk4x12_sensors_handlers *handlers, int64_t delay);
+
+static void* set_initial_state_fn(void *data) {
+	struct smdk4x12_sensors_handlers *handlers = (struct smdk4x12_sensors_handlers*)data;
+
+	ALOGE("%s: start", __func__);
+	usleep(100000); // 100ms
+	if (handlers == NULL || handlers->data == NULL)
+		return NULL;
+
+	bmp180_set_delay(handlers, 100000);
+	ALOGE("%s: end", __func__);
+
+	return NULL;
+}
+
+static void set_initial_state_thread(struct smdk4x12_sensors_handlers *handlers) {
+	pthread_attr_t thread_attr;
+	pthread_t setdelay_thread;
+
+	pthread_attr_init(&thread_attr);
+	pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_DETACHED);
+	int rc = pthread_create(&setdelay_thread, &thread_attr, set_initial_state_fn, (void*)handlers);
+	if (rc < 0)
+		ALOGE("%s: Unable to create thread", __func__);
+}
+
 int bmp180_activate(struct smdk4x12_sensors_handlers *handlers)
 {
 	struct bmp180_data *data;
@@ -123,6 +151,7 @@ int bmp180_activate(struct smdk4x12_sensors_handlers *handlers)
 	}
 
 	handlers->activated = 1;
+	set_initial_state_thread(handlers);
 
 	return 0;
 }
@@ -162,7 +191,7 @@ int bmp180_set_delay(struct smdk4x12_sensors_handlers *handlers, int64_t delay)
 
 	data = (struct bmp180_data *) handlers->data;
 
-	rc = sysfs_value_write(data->path_delay, (int) delay);
+	rc = write_cmd("/sys/devices/virtual/input/input6/pressure_poll_delay", "66667000", 9);
 	if (rc < 0) {
 		ALOGE("%s: Unable to write sysfs value", __func__);
 		return -1;
