@@ -27,7 +27,7 @@
 
 #include "PressureSensor.h"
 
-#define LOGTAG "PressureSensor"
+#define LOG_TAG "PressureSensor"
 
 /*
  * The BMP driver gives pascal values.
@@ -77,7 +77,7 @@ int PressureSensor::enable(int32_t handle, int en) {
     int flags = en ? 1 : 0;
     int err;
     if (flags != mEnabled) {
-         err = sspEnable(LOGTAG, SSP_PRESS, en);
+         err = sspEnable(LOG_TAG, SSP_PRESS, en);
          if(err >= 0){
              mEnabled = flags;
              setInitialState();
@@ -143,7 +143,7 @@ int PressureSensor::readEvents(sensors_event_t* data, int count)
                 numEventReceived++;
             }
         } else {
-            ALOGE("%s: unknown event (type=%d, code=%d)", LOGTAG,
+            ALOGE("%s: unknown event (type=%d, code=%d)", LOG_TAG,
                     type, event->code);
         }
         mInputReader.next();

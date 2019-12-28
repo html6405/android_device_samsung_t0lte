@@ -28,7 +28,7 @@
 #include <cutils/log.h>
 #include "AkmSensor.h"
 
-#define LOGTAG "AkmSensor"
+#define LOG_TAG "AkmSensor"
 
 //#define ALOG_NDEBUG 0
 
@@ -68,14 +68,14 @@ AkmSensor::AkmSensor()
 
     //Incase first time fails
     if(data_fd < 0){
-         ALOGI("%s: retrying to open compass sensor", LOGTAG);
+         ALOGI("%s: retrying to open compass sensor", LOG_TAG);
          data_fd = openInput("compass_sensor");
     }
 
     if(data_fd > 0){
-         ALOGI("%s: compass sensor successfully opened: %i", LOGTAG, data_fd);
+         ALOGI("%s: compass sensor successfully opened: %i", LOG_TAG, data_fd);
     }else{
-         ALOGI("%s: failed to open compass sensor", LOGTAG);
+         ALOGI("%s: failed to open compass sensor", LOG_TAG);
     }
 
     memset(mPendingEvents, 0, sizeof(mPendingEvents));
@@ -143,7 +143,7 @@ int AkmSensor::enable(int32_t handle, int en)
             err = akm_disable_sensor(sensor_type);
         }
 
-        err = sspEnable(LOGTAG, SSP_MAG, en);
+        err = sspEnable(LOG_TAG, SSP_MAG, en);
         setInitialState();
 
         ALOGE_IF(err, "Could not change sensor state (%s)", strerror(-err));
@@ -207,7 +207,7 @@ int AkmSensor::loadAKMLibrary()
         akm_enable_sensor = stub_enable_disable_sensor;
         akm_disable_sensor = stub_enable_disable_sensor;
         akm_set_delay = stub_set_delay;
-        ALOGE("%s: unable to load AKM Library, %s", LOGTAG, dlerror());
+        ALOGE("%s: unable to load AKM Library, %s", LOG_TAG, dlerror());
         return -ENOENT;
     }
 
@@ -256,7 +256,7 @@ int AkmSensor::readEvents(sensors_event_t* data, int count)
                 mInputReader.next();
             }
         } else {
-            ALOGE("%s: unknown event (type=%d, code=%d)", LOGTAG,
+            ALOGE("%s: unknown event (type=%d, code=%d)", LOG_TAG,
                     type, event->code);
             mInputReader.next();
         }

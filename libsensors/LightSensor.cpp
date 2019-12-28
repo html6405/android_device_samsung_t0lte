@@ -27,7 +27,7 @@
 
 #include "LightSensor.h"
 
-#define LOGTAG "LightSensor"
+#define LOG_TAG "LightSensor"
 
 // #define ALOG_NDEBUG 0
 
@@ -90,7 +90,7 @@ int LightSensor::enable(int32_t handle, int en)
     int flags = en ? 1 : 0;
     int err;
     if (flags != mEnabled) {
-         err = sspEnable(LOGTAG, SSP_LIGHT, en);
+         err = sspEnable(LOG_TAG, SSP_LIGHT, en);
          if(err >= 0){
               mEnabled = flags;
               setInitialState();
@@ -139,7 +139,7 @@ int LightSensor::readEvents(sensors_event_t* data, int count)
                 numEventReceived++;
             }
         } else {
-            ALOGE("%s: unknown event (type=%d, code=%d)", LOGTAG,
+            ALOGE("%s: unknown event (type=%d, code=%d)", LOG_TAG,
                     type, event->code);
         }
         mInputReader.next();

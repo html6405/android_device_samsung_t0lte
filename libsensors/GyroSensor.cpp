@@ -26,7 +26,7 @@
 
 #include "GyroSensor.h"
 
-#define LOGTAG "GyroSensor"
+#define LOG_TAG "GyroSensor"
 
 #define FETCH_FULL_EVENT_BEFORE_RETURN 1
 #define IGNORE_EVENT_TIME 350000000
@@ -82,7 +82,7 @@ int GyroSensor::enable(int32_t handle, int en) {
     int flags = en ? 1 : 0;
     int err;
     if (flags != mEnabled) {
-         err = sspEnable(LOGTAG, SSP_GYRO, en);
+         err = sspEnable(LOG_TAG, SSP_GYRO, en);
          if(err >= 0){
              mEnabled = flags;
              setInitialState();
@@ -157,7 +157,7 @@ again:
                 count--;
             }
         } else {
-            ALOGE("%s: unknown event (type=%d, code=%d)", LOGTAG,
+            ALOGE("%s: unknown event (type=%d, code=%d)", LOG_TAG,
                     type, event->code);
         }
         mInputReader.next();
