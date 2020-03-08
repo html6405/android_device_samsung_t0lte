@@ -19,5 +19,11 @@ LOCAL_PATH := device/samsung/t0lte
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 
+# F2FS
+PRODUCT_PACKAGES += \
+    fibmap.f2fs \
+    fsck.f2fs \
+    mkfs.f2fs
+
 # Include common makefile
 $(call inherit-product, device/samsung/t0lte/common.mk)
