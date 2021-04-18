@@ -90,6 +90,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml
 
+# Vendor security patch level
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.build.vendor_security_patch=2015-11-05
+
 # Configure dalvik heap
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
