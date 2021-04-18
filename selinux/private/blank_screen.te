@@ -1,0 +1,2 @@
+allow blank_screen sysfs_cpuinfo:dir search;
+allow blank_screen sysfs_cpuinfo:file read;
