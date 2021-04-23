@@ -177,6 +177,12 @@ on property:sys.boot_completed=1
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 # SISO-ANDR_PERF :: END
 
+on property:init.svc.macloader=stopped
+    chown system root /data/.cid.info
+    chmod 0666 /data/.cid.info
+    chown system root /data/.rev
+    chmod 0666 /data/.rev
+
 #########################################################################################################################
 on fs
 #########################################################################################################################
