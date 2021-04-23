@@ -75,4 +75,6 @@ BOARD_MODEM_TYPE := mdm9x35
 TARGET_OTA_ASSERT_DEVICE := t0lte,t0ltexx,GT-N7105,t0ltedv,GT-N7105T,t0lteatt,SGH-I317,t0ltetmo,SGH-T889,t0ltecan,t0ltevl,SGH-I317M
 
 # Selinux
-BOARD_SEPOLICY_DIRS += device/samsung/t0lte/selinux
+BOARD_SEPOLICY_DIRS += device/samsung/t0lte/selinux/vendor
+BOARD_PLAT_PUBLIC_SEPOLICY_DIR += device/samsung/t0lte/selinux/public
+BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/samsung/t0lte/selinux/private
