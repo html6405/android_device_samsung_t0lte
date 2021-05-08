@@ -607,8 +607,10 @@ int akm8963_deactivate(struct smdk4x12_sensors_handlers *handlers)
 int akm8963_set_delay(struct smdk4x12_sensors_handlers *handlers, int64_t delay)
 {
 	struct akm8963_data *data;
-	char path_delay[PATH_MAX] = "/sys/class/sensors/ssp_sensor/mag_poll_delay";
+	char mag_path_delay[PATH_MAX] = "/sys/class/sensors/ssp_sensor/mag_poll_delay";
+	char ori_path_delay[PATH_MAX] = "/sys/class/sensors/ssp_sensor/ori_poll_delay";
 	int rc;
+	int orirc;
 
 	ALOGD("%s(%p, %" PRId64 ")", __func__, handlers, delay);
 
@@ -617,12 +619,12 @@ int akm8963_set_delay(struct smdk4x12_sensors_handlers *handlers, int64_t delay)
 
 	data = (struct akm8963_data *) handlers->data;
 
-	rc = write_cmd(path_delay, "66667000", 9);
-	if (rc < 0) {
-		ALOGE("%s: Unable to write sysfs value", __func__);
+    rc = write_cmd(mag_path_delay, "66667000", 9);
+	orirc = write_cmd(ori_path_delay, "66667000", 9);
+	if (rc < 0 || orirc < 0) {
+		ALOGD("%s: Unable to write sysfs value", __func__);
 		return -1;
 	}
-
 	data->delay = delay;
 
 	return 0;
