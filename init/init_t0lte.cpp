@@ -42,6 +42,7 @@ void vendor_load_properties()
 
     char const *serial_number_file = SERIAL_NUMBER_FILE;
     std::string serial_number;
+    std::string serial_number_sub;
 
     if (platform != ANDROID_TARGET)
         return;
@@ -49,6 +50,7 @@ void vendor_load_properties()
     if (ReadFileToString(serial_number_file, &serial_number)) {
         serial_number = Trim(serial_number);
         property_override("ro.serialno", serial_number.c_str());
+        serial_number_sub = serial_number.substr(0, 9);
     }
 
     if (bootloader.find("I317") != std::string::npos) {
@@ -91,6 +93,7 @@ void vendor_load_properties()
         property_override_dual("ro.build.description", "ro.vendor.build.description", "t0lteskt-user 4.4.2 KOT49H E250SKSUKNI2 release-keys");
         property_override_dual("ro.build.fingerprint", "ro.vendor.build.fingerprint", "samsung/t0lteskt/t0lteskt:4.4.2/KOT49H/E250SKSUKNI2:user/release-keys");
         property_override("ro.build.product", "t0lteskt");
+        property_override("ro.serialno", serial_number_sub.c_str());
     } else if (bootloader.find("E250K") != std::string::npos) {
         /* SHV-E250K (KT Olleh) */
         property_override_dual("ro.product.model", "ro.vendor.product.model", "SHV-E250K");
@@ -99,6 +102,7 @@ void vendor_load_properties()
         property_override_dual("ro.build.description", "ro.vendor.build.description", "t0ltektt-user 4.4.2 KOT49H E250KKTUKNI1 release-keys");
         property_override_dual("ro.build.fingerprint", "ro.vendor.build.fingerprint", "samsung/t0ltektt/t0ltektt:4.4.2/KOT49H/E250KKTUKNI1:user/release-keys");
         property_override("ro.build.product", "t0ltektt");
+        property_override("ro.serialno", serial_number_sub.c_str());
     } else if (bootloader.find("E250L") != std::string::npos) {
         /* SHV-E250L (LG Uplus) */
         property_override_dual("ro.product.model", "ro.vendor.product.model", "SHV-E250L");
@@ -107,6 +111,7 @@ void vendor_load_properties()
         property_override_dual("ro.build.description", "ro.vendor.build.description", "t0ltelgt-user 4.4.2 KOT49H E250LKLUKNL1 release-keys");
         property_override_dual("ro.build.fingerprint", "ro.vendor.build.fingerprint", "samsung/t0ltelgt/t0ltelgt:4.4.2/KOT49H/E250LKLUKNL1:user/release-keys");
         property_override("ro.build.product", "t0ltelgt");
+        property_override("ro.serialno", serial_number_sub.c_str());
     } else if (bootloader.find("SC02E") != std::string::npos) {
         /* SC-02E (SGH-N025) (NTT DoCoMo) */
 	property_override_dual("ro.product.model", "ro.vendor.product.model", "SC-02E");
