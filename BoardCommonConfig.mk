@@ -21,7 +21,7 @@ LOCAL_PATH := device/samsung/t0lte
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_t0lte.txt
+BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/vnd_t0lte.txt
 
 # Camera
 BOARD_GLOBAL_CFLAGS += -DCAMERA_WITH_CITYID_PARAM
