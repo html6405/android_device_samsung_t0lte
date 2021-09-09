@@ -51,3 +51,4 @@ allow kickstart sysfs_cpuinfo:dir search;
 allow kickstart sysfs_cpuinfo:file { getattr open read };
 allow kickstart efs_boot_dev:blk_file { getattr open read write };
 allow kickstart block_device:dir add_name;
+allow kickstart block_device:file create;
