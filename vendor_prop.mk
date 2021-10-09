@@ -15,7 +15,7 @@
 #
 
 #
-# system.prop for i9305
+# system.prop for t0lte
 #
 PRODUCT_PROPERTY_OVERRIDES += \
 	config.disable_atlas=true \
