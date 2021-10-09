@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #include <linux/ioctl.h>
 #include <linux/input.h>
+#include <pthread.h>
 
 #include <hardware/sensors.h>
 #include <hardware/hardware.h>
