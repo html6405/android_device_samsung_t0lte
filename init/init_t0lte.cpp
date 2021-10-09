@@ -14,7 +14,6 @@
 using android::base::GetProperty;
 using android::base::ReadFileToString;
 using android::base::Trim;
-using android::init::property_set;
 
 #define SERIAL_NUMBER_FILE "/efs/FactoryApp/serial_no"
 
@@ -43,9 +42,6 @@ void vendor_load_properties()
     char const *serial_number_file = SERIAL_NUMBER_FILE;
     std::string serial_number;
     std::string serial_number_sub;
-
-    if (platform != ANDROID_TARGET)
-        return;
 
     if (ReadFileToString(serial_number_file, &serial_number)) {
         serial_number = Trim(serial_number);
