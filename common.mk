@@ -113,6 +113,3 @@ $(call inherit-product, vendor/samsung/t0lte/t0lte-vendor.mk)
 
 # Vendor properties
 -include $(LOCAL_PATH)/vendor_prop.mk
-
-$(call inherit-product, device/samsung/smdk4412-common/common.mk)
-$(call inherit-product, device/samsung/smdk4412-qcom-common/common.mk)
