@@ -102,6 +102,7 @@
 /dev/lte*                 0660   system     radio 
 /dev/cdma*                0660   system     radio 
 /dev/link_pm              0660   system     radio
+/dev/alarm                0664   system     radio
 
 # sensor sysfs properties
 /sys/devices/virtual/input/input*   acc_poll_delay  0660  system   radio
