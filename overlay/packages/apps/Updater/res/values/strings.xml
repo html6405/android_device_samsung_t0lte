@@ -18,7 +18,7 @@
 
     <string name="updater_server_url" translatable="false">http://html6405.ddns.net/{device}/html6405/LOS16.xml</string>
 
-    <string name="menu_changelog_url" translatable="false">https://forum.xda-developers.com/t/rom-9-x-n7105-t0lte-beta-lineageos-16-0.4263527/post-84855301</string>
+    <string name="menu_changelog_url" translatable="false">https://forum.xda-developers.com/t/rom-unofficial-11-0-n7105-t0lte-samsung-galaxy-note-2-lte-lineageos-18-1-alpha-treblelized.4345829/post-85759129</string>
 
 </resources>
 
