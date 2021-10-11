@@ -43,6 +43,11 @@ PRODUCT_COPY_FILES += \
 # HIDL
 DEVICE_MANIFEST_FILE := $(LOCAL_PATH)/manifest.xml
 
+# prebuild apps
+
+PRODUCT_PACKAGES += \
+	Via
+
 # F2FS
 PRODUCT_PACKAGES += \
     fibmap.f2fs \
