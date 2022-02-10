@@ -19,6 +19,9 @@
 
 LOCAL_PATH := device/samsung/t0lte
 
+# Device specific headers
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/t0lte/include
+
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/vnd_t0lte.txt
