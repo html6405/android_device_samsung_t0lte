@@ -62,7 +62,7 @@ PRODUCT_PACKAGES += \
     sensors.smdk4x12
 
 # NFC
-PRODUCT_PACKAGES += \
+# PRODUCT_PACKAGES += \
     nfc.exynos4 \
     libnfc \
     libnfc_jni \
@@ -74,7 +74,7 @@ PRODUCT_PACKAGES += \
     libsecril-client \
     libsecril-client-sap
 
-PRODUCT_COPY_FILES += \
+# PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:vendor/etc/permissions/android.hardware.nfc.xml
 
 # NFCEE access control
@@ -84,10 +84,10 @@ else
     NFCEE_ACCESS_PATH := $(LOCAL_PATH)/configs/nfcee_access_debug.xml
 endif
 
-PRODUCT_COPY_FILES += \
+# PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):vendor/etc/nfcee_access.xml
 
-PRODUCT_PACKAGES += \
+# PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     Stk \
     SamsungServiceMode
