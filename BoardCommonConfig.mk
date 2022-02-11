@@ -73,5 +73,5 @@ TARGET_OTA_ASSERT_DEVICE := t0lte,t0ltexx,GT-N7105,t0ltedv,GT-N7105T,t0lteatt,SG
 
 # Selinux
 BOARD_VENDOR_SEPOLICY_DIRS += device/samsung/t0lte/selinux/vendor
-BOARD_PLAT_PUBLIC_SEPOLICY_DIR += device/samsung/t0lte/selinux/public
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/samsung/t0lte/selinux/private
+SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += device/samsung/t0lte/selinux/public
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += device/samsung/t0lte/selinux/private
